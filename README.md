@@ -9,3 +9,6 @@ To implement our package, please load the R packages "MASS", "glmnet", "igraph" 
 To replicate our results, firstly run the codes shown in the GDP file, secondly the codes in the penalty_func file and finally the codes in the Rbiest file.
 
 To illustrate the recovered network, run the codes shown in the plot file. (Please contact me if you have any questions concerning the methodologies or codes of Rbinetwork)
+
+
+![搜狗截图20250406174648](https://github.com/user-attachments/assets/c10f9366-d551-45de-9dec-0b76c56d6c1f)
