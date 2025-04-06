@@ -1,0 +1,32 @@
+
+
+# Defining the penalty function
+f <- function(theta, dta) {
+
+mm<-matrix(1:(n*n),n,n,byrow=T)
+diag(mm)<-0
+mm[upper.tri(mm)]<-theta[1:(n*n-n)/2]
+mm[lower.tri(mm)]<-t(mm)[lower.tri(mm)]
+
+G<-mm
+
+
+library(MASS)
+
+
+X<-as.matrix(data.frame(z1,z2,z3,z4,z5))
+A<-G%*%y
+Gz1<-G%*%z1
+Z<-cbind(Gz1,X)
+A_hat<-Z%*%ginv(t(Z)%*%Z)%*%t(Z)%*%A
+
+delta<-as.numeric(   as.numeric((1-ginv(t(A_hat)%*%A_hat)%*%t(A_hat)%*%X%*%ginv(t(X)%*%X)%*%t(X)%*%A_hat)^(-1))*
+( ginv(t(A_hat)%*%A_hat)%*%t(y)%*%A_hat-ginv(t(A_hat)%*%A_hat)%*%t(A_hat)%*%X%*%ginv(t(X)%*%X)%*%t(X)%*%y)   )
+
+beta<-ginv(t(X)%*%X)%*%(t(X)%*%y-as.numeric(delta)*t(X)%*%A_hat)
+
+f<-0.5*t(y-delta*G%*%y-X%*%beta)%*%(y-delta*G%*%y-X%*%beta)+lamda*sum(as.numeric(abs(G)))
+return(f)
+}
+
+
