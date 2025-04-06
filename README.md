@@ -10,5 +10,5 @@ To replicate our results, firstly run the codes shown in the GDP file, secondly 
 
 To illustrate the recovered network, run the codes shown in the plot file. (Please contact me if you have any questions concerning the methodologies or codes of Rbinetwork)
 
-
 ![搜狗截图20250406174648](https://github.com/user-attachments/assets/c10f9366-d551-45de-9dec-0b76c56d6c1f)
+![搜狗截图20250406181403](https://github.com/user-attachments/assets/8613b92e-df65-4787-90dc-723f79f08efc)
