@@ -1,0 +1,46 @@
+
+#sample size
+n<-50
+
+#generating the true underlying Adjacency Matrix for the behavior influence network
+
+theta<-sample(c(0,1),(n*n-n)/2,replace=T)
+
+matrix<-matrix(rep(1,n*n),n,n)
+
+matrix[lower.tri(matrix)]<-theta
+
+matrix[upper.tri(matrix)]<-t(matrix)[upper.tri(matrix)]
+diag(matrix)<-0
+
+G<-matrix
+
+#generating the covariates
+
+z1<-runif(n)
+z2<-runif(n)
+z3<-runif(n)
+z4<-runif(n)
+z5<-runif(n)
+error<-rnorm(n,0,0.5)
+
+#generating the outcome vector
+y=solve(diag(c(rep(1,50)))-2.5*G)%*%(1*z1+2*z2+3*z3+4*z4+5*z5)+solve(diag(c(rep(1,50)))-2.5*G)%*%error
+
+
+
+library(MASS)
+
+
+X<-as.matrix(data.frame(z1,z2,z3,z4,z5))
+A<-G%*%y
+Gz1<-G%*%z1
+Z<-cbind(Gz1,X)
+A_hat<-Z%*%ginv(t(Z)%*%Z)%*%t(Z)%*%A
+
+# OLS estimations of the peer influence effects provided the behavior influence network is equal to the friendship network, which is known ahead of time by self-reportings or nominations.
+
+delta<-as.numeric((1-solve(t(A_hat)%*%A_hat)%*%t(A_hat)%*%X%*%solve(t(X)%*%X)%*%t(X)%*%A_hat)^(-1))*
+( solve(t(A_hat)%*%A_hat)%*%t(y)%*%A_hat-solve(t(A_hat)%*%A_hat)%*%t(A_hat)%*%X%*%solve(t(X)%*%X)%*%t(X)%*%y )
+
+beta<-solve(t(X)%*%X)%*%(t(X)%*%y-as.numeric(delta)*t(X)%*%A_hat)
