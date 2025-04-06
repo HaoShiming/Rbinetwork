@@ -10,9 +10,7 @@ mm[lower.tri(mm)]<-t(mm)[lower.tri(mm)]
 
 G<-mm
 
-
 library(MASS)
-
 
 X<-as.matrix(data.frame(z1,z2,z3,z4,z5))
 A<-G%*%y
