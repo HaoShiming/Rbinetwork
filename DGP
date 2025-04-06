@@ -1,5 +1,5 @@
 
-#sample size
+#sample size (you can set the sample size as you like, but the bigger sample size, the longer running times needed to get the results)
 n<-50
 
 #generating the true underlying Adjacency Matrix for the behavior influence network
