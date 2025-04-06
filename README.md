@@ -5,3 +5,7 @@ Rbinetwork is an R package implementing high-dimensional sparse machine learning
 We allow for cross-sectional observations as well as longitudinal observations, but we only show the codes for cross-sectional observations in this repository.
 
 To implement our package, please load the R packages "MASS", "glmnet", "igraph" and "ivreg" before you runing the codes.
+
+To replicate our results, firstly run the codes shown in the GDP file, secondly the codes in the penalty_func file and finally the codes in the Rbiest file.
+
+To illustrate the recovered network, run the codes shown in the plot file. (Please contact me if you have any questions concerning the methodologies or codes of Rbinetwork)
