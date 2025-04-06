@@ -86,7 +86,7 @@ beta[[j]]<-as.numeric( ginv(t(X)%*%X)%*%(t(X)%*%y-as.numeric(   as.numeric((1-gi
 
 delta #endogeneous peer influence effect#
 beta  #covariates' effects#
-GG    #recovered behavior influence network#
+GG    #recovered Adjacency Matrix of the behavior influence network#
 
 
 
