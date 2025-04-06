@@ -1,0 +1,92 @@
+# Estimation of the behavior influence network and peer influence effects
+
+GG<-list()
+beta<-list()
+delta<-c()
+lamdaa<-c(3.0,3.1,3.2,3.3,3.4,3.5,3.6,3.7,3.8,3.9)
+for(j in 1:3){
+
+
+lamda<-lamdaa[j]
+value<-c()
+par<-list()
+for (i in 1:5){
+op<-optim(f, par=sample(c(0,1),1225,replace=T),lower = rep(-0.03,1225),upper=rep(1.03,1225),method = c("L-BFGS-B"))
+value[i]<-op$value         
+par[[i]]<-op$par              
+#value[i]<-optim(f, par=sample(c(0,1),45,replace=T),method = c("CG"))$value          
+#par[[i]]<-optim(f, par=sample(c(0,1),45,replace=T),method = c("CG"))$par              
+} 
+
+par_out<-par[[which.min(abs(value-0))]]
+
+ff <- function(threshold) {
+
+mmm<-matrix(1:2500,50,50,byrow=T)
+diag(mmm)<-0
+mmm[upper.tri(mmm)]<-par_out
+mmm[lower.tri(mmm)]<-t(mmm)[lower.tri(mmm)]
+
+G_out<-mmm
+G_out<-ifelse(G_out<=threshold,0,1)
+
+library(MASS)
+X<-as.matrix(data.frame(z1,z2,z3,z4,z5))
+A<-A
+Gz1<-G_out%*%z1
+Z<-cbind(Gz1,X)
+A_hat<-Z%*%ginv(t(Z)%*%Z)%*%t(Z)%*%A
+
+delta<-as.numeric(   as.numeric((1-ginv(t(A_hat)%*%A_hat)%*%t(A_hat)%*%X%*%ginv(t(X)%*%X)%*%t(X)%*%A_hat)^(-1))*
+( ginv(t(A_hat)%*%A_hat)%*%t(y)%*%A_hat-ginv(t(A_hat)%*%A_hat)%*%t(A_hat)%*%X%*%ginv(t(X)%*%X)%*%t(X)%*%y)   )
+
+beta<-ginv(t(X)%*%X)%*%(t(X)%*%y-as.numeric(delta)*t(X)%*%A_hat)
+
+ff<-t(y-delta*A-X%*%beta)%*%(y-delta*A-X%*%beta)
+return(ff)
+}
+
+value_threshold<-c()
+par_threshold<-c()
+for(p in 1:500){
+op<-optim(ff, par=runif(1,0,1),lower = rep(-0.03,1),upper=rep(1.03,1),method = c("L-BFGS-B"))
+value_threshold[p]<-op$value
+par_threshold[p]<-op$par         
+}
+threshold_optimal<-par_threshold[which.min(value_threshold)]
+
+
+theta<-ifelse(par[[which.min(abs(value-0))]]<=threshold_optimal,0,1)
+
+mmmm<-matrix(1:2500,50,50,byrow=T)
+diag(mmmm)<-0
+mmmm[upper.tri(mmmm)]<-theta
+mmmm[lower.tri(mmmm)]<-t(mmmm)[lower.tri(mmmm)]
+
+GG[[j]]<-mmmm
+
+GGG<-mmmm
+
+X<-as.matrix(data.frame(z1,z2,z3,z4,z5))
+A<-A
+Gz1<-GGG%*%z1
+Z<-cbind(Gz1,X)
+A_hat<-Z%*%ginv(t(Z)%*%Z)%*%t(Z)%*%A
+
+delta[j]<-as.numeric(   as.numeric((1-ginv(t(A_hat)%*%A_hat)%*%t(A_hat)%*%X%*%ginv(t(X)%*%X)%*%t(X)%*%A_hat)^(-1))*
+( ginv(t(A_hat)%*%A_hat)%*%t(y)%*%A_hat-ginv(t(A_hat)%*%A_hat)%*%t(A_hat)%*%X%*%ginv(t(X)%*%X)%*%t(X)%*%y)   )
+ 
+beta[[j]]<-as.numeric( ginv(t(X)%*%X)%*%(t(X)%*%y-as.numeric(   as.numeric((1-ginv(t(A_hat)%*%A_hat)%*%t(A_hat)%*%X%*%ginv(t(X)%*%X)%*%t(X)%*%A_hat)^(-1))*
+( ginv(t(A_hat)%*%A_hat)%*%t(y)%*%A_hat-ginv(t(A_hat)%*%A_hat)%*%t(A_hat)%*%X%*%ginv(t(X)%*%X)%*%t(X)%*%y)   )*t(X)%*%A_hat) )
+
+
+}
+
+
+
+delta #endogeneous peer influence effect#
+beta  #covariates' effects#
+GG    #recovered behavior influence network#
+
+
+
