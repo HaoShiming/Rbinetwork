@@ -4,7 +4,8 @@ Rbinetwork is an R package implementing high-dimensional sparse machine learning
 
 Current Social Network Analyses studying social interactions (e.g. peer effects) usually require that friendship networks are observed and correctly measured by self-reports or nominations, however self-reporting and nomination could make surveys costly and time-consuming, and self-reported and nominated data can lead to network measurement errors caused by under-reporting or over-reporting of true relationships. Rbinetwork, at this point, offers you a new methodological tool to recover the true underlying behavioral influential relationships formed by a certain group of individuals without requiring prior network data.
 
-We allow for cross-sectional observations as well as longitudinal observations, but we only show the codes for cross-sectional observations in this repository.
+We allow for cross-sectional observations as well as longitudinal observations, but we only show the codes for cross-sectional observations in this repository.  While our algorithms offer high estimation
+accuracy, it is computationally intensive when executed on standard PCs (Network analysis based on optimization procedures is inherently time-intensive, as Newton-Raphson-type algorithms among others usually require computing and storing large-scale matrix inverses at each iteration. This leads to extremely high computational complexit). Therefore, we recommend utilizing HPC platforms, such as supercomputers or computational clusters, to substantially reduce computation times.
 
 To implement our package, please load the R packages "MASS", "glmnet", "igraph" and "ivreg" before you running the codes.
 
