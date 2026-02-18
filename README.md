@@ -4,6 +4,7 @@ Rbinetwork is an R package designed to recover latent peer influence networks an
 
 Unlike conventional social network analysis which typically relies on self-reported friendship ties that are costly to collect and prone to measurement error, Rbinetwork provides a novel methodology to infer genuine influence relationships without requiring prior network data. It accommodates both cross‑sectional and longitudinal observation schemes, though the current repository demonstrates implementation for cross‑sectional settings with undirectional peer influence networks. While the underlying algorithms deliver high estimation accuracy, they are computationally intensive on standard personal computers due to the iterative large‑scale matrix operations involved. Therefore, we have designed parallel computation procedures to improve computational efficiency. We also recommend executing the procedures on high‑performance computing (HPC) platforms, such as supercomputers or computational clusters with high-level CPU cores, to achieve feasible runtimes.
 
+This package is under active updating.
 
 To implement our package, please load the R packages "MASS", "glmnet", "igraph" and "ivreg" before you running the codes.
 
